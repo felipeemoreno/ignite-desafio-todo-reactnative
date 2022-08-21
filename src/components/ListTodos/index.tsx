@@ -5,23 +5,25 @@ import { styles } from './style';
 
 type Props = {
   todos: TodoType[];
-  handleTodoRemove: (title: string) => void
+  onCheck: (title: string) => void;
+  onRemove: (title: string) => void
 }
 
 type TodoType = {
-  isDone: boolean;
+  checked: boolean;
   title: string;
 }
 
-const ListTodos = ({todos, handleTodoRemove }: Props) => {
+const ListTodos = ({todos, onRemove, onCheck }: Props) => {
   return (
     <FlatList
         data={todos}
         renderItem={({ item }) => (
           <Card
             title={item.title}
-            isDone={item.isDone}
-            onRemove={handleTodoRemove}
+            checked={item.checked}
+            onCheck={onCheck}
+            onRemove={onRemove}
           />
         )}
         keyExtractor={item => item.title}

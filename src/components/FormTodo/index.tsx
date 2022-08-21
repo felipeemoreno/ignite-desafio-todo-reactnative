@@ -7,10 +7,10 @@ import { styles } from './styles';
 type Props = {
   inputText: string,
   handleSetInputText: (inputText: string) => void,
-  handleTodoAdd: () => void
+  onAdd: () => void
 }
 
-const FormTodo = ({inputText, handleSetInputText, handleTodoAdd}: Props ) => {
+const FormTodo = ({inputText, handleSetInputText, onAdd}: Props ) => {
   return (
     <View style={styles.inputContainer}>
       <TextInput 
@@ -22,7 +22,7 @@ const FormTodo = ({inputText, handleSetInputText, handleTodoAdd}: Props ) => {
       />
       <TouchableOpacity 
         style={styles.buttonAdd}
-        onPress={handleTodoAdd}
+        onPress={onAdd}
       >
         <Feather name="plus-circle" size={24} color="white" />
       </TouchableOpacity>

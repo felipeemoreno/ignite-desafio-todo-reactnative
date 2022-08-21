@@ -11,8 +11,14 @@ export const styles = StyleSheet.create({
     marginBottom: 8,
     paddingHorizontal: 12,
   },
-  cardText: {
+  checkBox: {
     flex: 1,
-    color: "#F2F2F2"
   },
+  checked: {
+    color: '#808080',
+    textDecorationLine: "line-through",
+  },
+  unchecked: {
+    color: '#F2F2F2',
+  }
 })

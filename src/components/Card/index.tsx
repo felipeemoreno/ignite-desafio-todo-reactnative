@@ -4,17 +4,26 @@ import React from 'react'
 import { styles } from './styles'
 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import BouncyCheckbox from 'react-native-bouncy-checkbox';
 
 type Props = {
   title: string;
-  isDone: boolean;
+  checked: boolean;
+  onCheck: (title: string) => void
   onRemove: (title: string) => void
 }
 
-const Card = ({onRemove, title, isDone }: Props) => {
+const Card = ({onRemove,onCheck, title, checked }: Props) => {
   return (
     <View style={styles.card}>
-      <Text style={styles.cardText}>{title}</Text>
+      <BouncyCheckbox 
+        onPress={() => onCheck(title)} 
+        isChecked={checked}
+        textStyle={checked ? styles.checked : styles.unchecked}
+        text={title}
+        style={styles.checkBox}
+        disableBuiltInState
+      />
       <TouchableOpacity
         onPress={() => onRemove(title)}
       >

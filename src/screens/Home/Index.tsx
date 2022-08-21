@@ -1,12 +1,13 @@
 import { Image, View, Text, TextInput, TouchableOpacity, FlatList, Alert } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { styles } from './styles'
 
 import FormTodo from '../../components/FormTodo';
 import ListTodos from '../../components/ListTodos';
+import InfoBar from '../../components/InfoBar';
 
 type TodoType = {
-  isDone: boolean;
+  checked: boolean;
   title: string;
 }
 
@@ -14,6 +15,8 @@ const Home = () => {
 
   const [todos, setTodos] = useState<TodoType[]>([]);
   const [inputText, setInputText] = useState("");
+  const [created, setCreated] = useState(0);
+  const [finished, setFinished] = useState(0);
 
   const handleTodoAdd = () => {
     if(inputText.length <= 0) {
@@ -27,7 +30,7 @@ const Home = () => {
 
     const newTodo: TodoType = Object.assign({}, {
       title: inputText,
-      isDone: false
+      checked: false
     });
 
     setTodos(prevState => [...prevState, newTodo]);
@@ -53,19 +56,53 @@ const Home = () => {
 
   }
 
+  const handleTodoCheck = (title: string) => {
+    const todosChanged = todos.map(item => {
+      if(item.title === title) {
+        item.checked = !item.checked
+      }
+      return item;
+    });
+
+    setTodos(todosChanged)
+  }
+
+  const handleInfoBar = () => {
+    const  [created, finished] = todos.reduce((acc, item) => {
+      if(item.checked) {
+        acc[1]++
+      }
+      acc[0]++
+      return acc;
+    }, [0, 0])
+
+    setCreated(created);
+    setFinished(finished);
+  }
+  
+  useEffect(() => {
+    handleInfoBar()
+  }, [todos])
+  
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <Image source={require('../../../assets/Logo.png')} style={styles.logo}/>
       </View>
       <FormTodo
-        handleTodoAdd={handleTodoAdd}
+        onAdd={handleTodoAdd}
         handleSetInputText={setInputText}
         inputText={inputText}
       />
+      <InfoBar 
+        created={created}
+        finished={finished}
+      />
       <ListTodos
         todos={todos}
-        handleTodoRemove={handleTodoRemove}
+        onRemove={handleTodoRemove}
+        onCheck={handleTodoCheck}
       />
     </View>
   )
